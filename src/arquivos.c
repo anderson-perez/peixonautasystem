@@ -1,6 +1,7 @@
 #include "../include/arquivos.h"
 #include "../include/conf.h"
 #include "../include/listas.h"
+#include "../include/relatorios.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -124,4 +125,89 @@ void ler_dados_vendas(controle_lista_vendas_t *controle)
 
     fclose(fp);
 
+}
+
+void exportar_dados_peixes_csv(no_peixe_t *lista)
+{
+    FILE *fp = NULL;
+
+    fp = fopen(PEIXES_CSV, "w");
+
+    if (!fp) return;
+
+    fprintf(fp, "ID Peixe; Espécie; QTD. Estoque; Valor Unitário\n");
+
+    while (lista) {
+        fprintf(fp, "%hhu;", lista->peixe.id);
+        fprintf(fp, "%s;", lista->peixe.especie);
+        fprintf(fp, "%.2f;", lista->peixe.qtd_estoque);
+        fprintf(fp, "%.2f\n", lista->peixe.vlr_unitario);
+
+        lista = lista->prox;
+    }
+
+    fclose(fp);
+
+}
+
+void exportar_dados_peixes_txt(no_peixe_t *lista)
+{
+    FILE *fp = NULL;
+
+    fp = fopen(PEIXES_TXT, "w");
+
+    if (!fp) return;
+
+    while (lista) {
+        mostrar_dados_peixe(lista->peixe, fp);
+        lista = lista->prox;
+    }
+
+    fclose(fp);
+}
+
+void exportar_dados_peixes_html(no_peixe_t *lista)
+{
+    FILE *fp = NULL;
+
+    fp = fopen(PEIXES_HTML, "w");
+
+    if (!fp) return;
+
+    fprintf(fp, "<html>\n");
+    fprintf(fp, "<head><meta charset=\"UTF-8\"></head>\n");
+    fprintf(fp, "<body>\n");
+    fprintf(fp, "<table border=\"1\">\n");
+
+    fprintf(fp, "<thead>\n");
+    fprintf(fp, "<tr>");
+    fprintf(fp, "<th>ID</th>");
+    fprintf(fp, "<th>Espécie</th>");
+    fprintf(fp, "<th>Estoque</th>");
+    fprintf(fp, "<th>Valor Unitário</th>");
+    fprintf(fp, "</tr>\n");
+    fprintf(fp, "</thead>\n");
+
+    fprintf(fp, "<tbody>\n");
+
+    while (lista) {
+
+        fprintf(fp, "<tr>");
+
+        fprintf(fp, "<td>%hhu</td>", lista->peixe.id);
+        fprintf(fp, "<td>%s</td>", lista->peixe.especie);
+        fprintf(fp, "<td>%.2f</td>", lista->peixe.qtd_estoque);
+        fprintf(fp, "<td>%.2f</td>", lista->peixe.vlr_unitario);
+
+        fprintf(fp, "</tr>\n");
+
+        lista = lista->prox;
+    }
+
+    fprintf(fp, "</tbody>\n");
+    fprintf(fp, "</table>\n");
+    fprintf(fp, "</body>\n");
+    fprintf(fp, "</html>\n");
+
+    fclose(fp);
 }

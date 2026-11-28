@@ -1,0 +1,10 @@
+Identificação.......: 1
+Espécie.............: BAGRE
+Quantidade estoque..: 100.00
+Valor em kg.........: 10.00
+
+Identificação.......: 2
+Espécie.............: TILAPIA
+Quantidade estoque..: 400.00
+Valor em kg.........: 34.00
+
